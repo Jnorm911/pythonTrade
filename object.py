@@ -1,4 +1,6 @@
-class myObject:
+import pandas as pd
+
+class DF(pd.myObject):
     def __init__(self, pos, data):
         self.pos = pos
         self.data = data
