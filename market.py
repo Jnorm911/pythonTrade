@@ -1,5 +1,5 @@
 import time
- 
+import pandas as pd
 from kucoin.client import Market
 from candle import Candle
 

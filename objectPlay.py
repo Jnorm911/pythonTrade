@@ -75,6 +75,15 @@ def startProcess():
                 quit()
 
 
+startObject(no)
+
+def main():
+    startProcess()
+
+if __name__ == '__main__':
+    main()
+
+
 # print(instances['inst8'])
 
 # df = pd.DataFrame([x.as_dict() for x in instances])
