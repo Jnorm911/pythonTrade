@@ -1,6 +1,4 @@
-import pandas as pd
-
-class DF(pd.myObject):
+class myObject:
     def __init__(self, pos, data):
         self.pos = pos
         self.data = data
@@ -10,3 +8,6 @@ class DF(pd.myObject):
 
     def __repr__(self):
         return self.__str__()
+
+    def as_dict(self):
+        return {'pos': self.pos, 'data': self.data}
