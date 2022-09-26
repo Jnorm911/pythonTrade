@@ -1,7 +1,8 @@
-import multiprocessing as mp
 import random
 import time
+import sys
 import pandas as pd
+from threading import Thread
 from object import myObject
 
 no = -1
@@ -29,24 +30,26 @@ def getObjects(instance):
         del instances[0]
     updateObjects()
 
+
 def updateObjects():
     df = pd.DataFrame([x.as_dict() for x in instances])
-    dfData = df['data']
+    dfData = df["data"]
 
     for i in range(len(dfData)):
         if i == 0:
             prevData = 0
             curData = dfData[i]
         else:
-            prevData = df.iat[i-1,1]
+            prevData = df.iat[i - 1, 1]
             curData = dfData[i]
-        if(prevData < curData):
-            df.loc[i,'pos']="High"
-        elif(prevData > curData):
-            df.loc[i,'pos']="Low"
+        if prevData < curData:
+            df.loc[i, "pos"] = "High"
+        elif prevData > curData:
+            df.loc[i, "pos"] = "Low"
         else:
-            df.loc[i,'pos']="Same"
+            df.loc[i, "pos"] = "Same"
     return df
+
 
 def getDf():
     return updateObjects()
@@ -63,25 +66,20 @@ def startObject(no):
             print(getDf())
 
 
-def startProcess():
-    if __name__ == 'objectPlay':
-        process = mp.Process(target=startObject, args=(no,))
-        process.start()
-        while True:
-            execute = input("Press Q to quit: ")
-            if execute == "q":
-                print("goodbye")
-                process.terminate()
-                quit()
+def exit():
+    while True:
+        execute = input("Press Q to quit: ")
+        if execute == "q":
+            print("goodbye")
+            sys.exit()
 
 
-startObject(no)
 
-def main():
-    startProcess()
 
-if __name__ == '__main__':
-    main()
+t1 = Thread(target=startObject, args=(no,))
+t1.daemon=True
+t1.start()
+t2 = Thread(target=exit).start()
 
 
 # print(instances['inst8'])
@@ -90,7 +88,7 @@ if __name__ == '__main__':
 # df['data'] = df['data'].diff()
 # print(df)
 
-#Set candle color from Dictionary
+# Set candle color from Dictionary
 # df = pd.DataFrame([x.as_dict() for x in instances])
 # dfData = df['data']
 
