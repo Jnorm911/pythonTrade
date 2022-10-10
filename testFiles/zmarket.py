@@ -5,6 +5,8 @@ from candle import Candle
 
 client = Market(url="https://api.kucoin.com")
 current_time = client.get_server_timestamp()
+klineCoin =("KCS-USDT")
+klineTime =("1min")
 no = 0
 color = None
 duration = 1
@@ -42,7 +44,7 @@ def makeFirstCandle():
 
 
 def makeCandle():
-    klines = client.get_kline("KCS-USDT", "1min")
+    klines = client.get_kline(klineCoin, klineTime)
     df = pd.DataFrame(
         klines, columns=["start", "open", "close", "high", "low", "volume", "amount"]
     )
@@ -66,11 +68,12 @@ def makeCandle():
 
 # closePrice = (openAH + highAH + lowAH + closeAH) / 4
 
-makeFirstCandle()
-time.sleep(60)
+#makeFirstCandle()
+#time.sleep(60)
+
 
 while True:
     no += 1
     color = setColor(color)
     makeCandle()
-    time.sleep(60)
+    time.sleep(10)

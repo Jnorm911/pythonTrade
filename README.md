@@ -1,4 +1,4 @@
 # pythontrade
  wip
 
-# Attemp Threads, multiprocessing will not work.
+incorporate counter into buckets, get dictionary of dataframes, start buckets
