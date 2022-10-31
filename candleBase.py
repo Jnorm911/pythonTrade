@@ -29,9 +29,9 @@ def createCandle():
         candle = Candle(duration, color, openAH, highAH, lowAH, closeAH, voluemAH)
     except:
         print("\nError getting candle, Making new candle\n")
-        candle = Candle(duration, color, openAH, highAH, lowAH, closeAH, voluemAH)
+        #candle = Candle(duration, color, openAH, highAH, lowAH, closeAH, voluemAH)
         pass
-        print("after pass")
+        #print("after pass")
     return candle
 
 # Adds candle objects to a candles dictionary

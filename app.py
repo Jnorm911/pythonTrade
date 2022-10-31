@@ -1,6 +1,7 @@
-from candleBase import startCandleBase
+from candleBase import startCandleBase, getCandles
 from candleInterval import getCandlesInterval
 from threading import Thread
+import pandas as pd
 import sys
 
 def exit():
