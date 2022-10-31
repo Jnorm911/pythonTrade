@@ -1,4 +1,6 @@
 # pythontrade
  wip
 
-incorporate counter into buckets, get dictionary of dataframes, start buckets
+# TODO
+
+Group candles dataframe into buckets

@@ -80,28 +80,3 @@ t1 = Thread(target=startObject, args=(no,))
 t1.daemon=True
 t1.start()
 t2 = Thread(target=exit).start()
-
-
-# print(instances['inst8'])
-
-# df = pd.DataFrame([x.as_dict() for x in instances])
-# df['data'] = df['data'].diff()
-# print(df)
-
-# Set candle color from Dictionary
-# df = pd.DataFrame([x.as_dict() for x in instances])
-# dfData = df['data']
-
-# for i in range(len(dfData)):
-#     if i == 0:
-#         prevData = 0
-#         curData = dfData[i]
-#     else:
-#         prevData = df.iat[i-1,1]
-#         curData = dfData[i]
-#     if(prevData < curData):
-#         df.loc[i,'pos']="High"
-#     elif(prevData > curData):
-#         df.loc[i,'pos']="Low"
-#     else:
-#         df.loc[i,'pos']="Same"

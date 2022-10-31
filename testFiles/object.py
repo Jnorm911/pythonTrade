@@ -10,4 +10,4 @@ class myObject:
         return self.__str__()
 
     def as_dict(self):
-        return {'pos': self.pos, 'data': self.data}
+        return {'data': self.data}
