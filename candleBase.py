@@ -4,6 +4,8 @@ import threading as t
 import pandas as pd
 import copy
 import time
+import ctypes
+import os
 
 client = Market(url="https://api.kucoin.com")
 klineCoin =("BTC-USDT")
@@ -29,9 +31,9 @@ def createCandle():
         candle = Candle(duration, color, openAH, highAH, lowAH, closeAH, voluemAH)
     except:
         print("\nError getting candle, Making new candle\n")
-        #candle = Candle(duration, color, openAH, highAH, lowAH, closeAH, voluemAH)
+        candle = Candle(duration, color, openAH, highAH, lowAH, closeAH, voluemAH)
         pass
-        #print("after pass")
+        print("after pass")
     return candle
 
 # Adds candle objects to a candles dictionary
@@ -39,7 +41,7 @@ def candleDict():
     candles.append(createCandle())
     if len(candles) > 60:
         del candles[0]
-    #print(candles)
+    print(candles)
     return candles
 
 def getCandles():
@@ -52,3 +54,6 @@ def startCandleBase():
     while True:
         candleDict()
         time.sleep(1)
+
+
+main()
