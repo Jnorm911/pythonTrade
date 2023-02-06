@@ -4,17 +4,11 @@ import threading
 import time
 import sys
 
-dfFixList = []
 df = pd.DataFrame()
 
 def createCandle():
-    # Number of rows
     n = 10
-
-    # Generate a numpy array with random numbers from 0 to 9
     data = np.random.randint(0, 10, size=(n, 4))
-
-    # Convert numpy array to pandas DataFrame
     df = pd.DataFrame(data, columns=['open', 'high', 'low', 'close'])
     endRow = df.shape[0]
     closeFix = df["close"][endRow - 1]
@@ -22,19 +16,21 @@ def createCandle():
     highFix = df["high"].max()
     lowFix= df["low"].min()
     dfFix = pd.DataFrame({'open': [openFix], 'high': [highFix], 'low': [lowFix], 'close': [closeFix]})
-    print("\nOriginal DF\n")
-    print(df)
-    print("\n Update DF \n")
-    print(dfFix)
+    # print("\nOriginal DF\n")
+    # print(df)
+    # print("\n Update DF \n")
+    # print(dfFix)
     return dfFix
 
 def createCandleThread(): 
     while True: 
         global df
-        df = df.append(createCandle(), ignore_index=True) 
+        df = pd.concat([df, createCandle()], ignore_index=True)  
+        if len(df) > 10:
+            df = df.iloc[1:]
+        print("\n")
         print(df) 
-        time.sleep(5) 
-  
+        time.sleep(3) 
 
 def quitThread():
     while True:
@@ -44,10 +40,7 @@ def quitThread():
             sys.exit()
 
   
-# Create the threads 
 t1 = threading.Thread(target=createCandleThread) 
 t1.daemon=True
 t2 = threading.Thread(target=quitThread).start() 
-
-# Start the threads 
 t1.start() 
