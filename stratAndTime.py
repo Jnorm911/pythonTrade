@@ -15,3 +15,17 @@ def divide_dataframe(dataframe, parts):
     parts = length // parts
     divided_dfs = [dataframe.iloc[i:i + parts] for i in range(0, length, parts)]
     return divided_dfs
+
+def df2():
+    df3 = pd.DataFrame()
+    for i in range(0, len(df), 4):
+        df4 = df.iloc[i:i+4]
+        endRow = df4.shape[0]
+        openFix = df4["open"].iloc[0]
+        highFix = df4["high"].max()
+        lowFix= df4["low"].min()
+        closeFix = df4["close"].iloc[endRow - 1]
+        df5 = pd.DataFrame({'open': [openFix], 'high': [highFix], 'low': [lowFix], 'close': [closeFix]})
+        df3 = pd.concat([df3, df5], ignore_index=True) 
+    print(df3)
+    return df3
