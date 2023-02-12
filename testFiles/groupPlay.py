@@ -6,7 +6,7 @@ import sys
 
 df = pd.DataFrame()
 
-def createCandle():
+def makeKline():
     n = 10
     data = np.random.randint(0, 10, size=(n, 4))
     df = pd.DataFrame(data, columns=['open', 'high', 'low', 'close'])
@@ -16,21 +16,17 @@ def createCandle():
     highFix = df["high"].max()
     lowFix= df["low"].min()
     dfFix = pd.DataFrame({'open': [openFix], 'high': [highFix], 'low': [lowFix], 'close': [closeFix]})
-    # print("\nOriginal DF\n")
-    # print(df)
-    # print("\n Update DF \n")
-    # print(dfFix)
     return dfFix
 
-def createCandleThread(): 
+def klines1Min(): 
     while True: 
+        time.sleep(1) 
         global df
-        df = pd.concat([df, createCandle()], ignore_index=True)  
+        df = pd.concat([df, makeKline()], ignore_index=True)  
         if len(df) > 10:
             df = df.iloc[1:]
-        print("\n")
+        print("\n 1 Minute Klines \n")
         print(df) 
-        time.sleep(3) 
 
 def quitThread():
     while True:
@@ -40,7 +36,11 @@ def quitThread():
             sys.exit()
 
   
-t1 = threading.Thread(target=createCandleThread) 
+t1 = threading.Thread(target=klines1Min) 
 t1.daemon=True
 t2 = threading.Thread(target=quitThread).start() 
 t1.start() 
+
+# Function
+# For every 4 rows of klines make a pandas dataframe
+
