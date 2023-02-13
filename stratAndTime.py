@@ -10,12 +10,6 @@ def heiken_ashi_candles(dataframe):
     return heiken_ashi
 
 
-def divide_dataframe(dataframe, parts):
-    length = len(dataframe)
-    parts = length // parts
-    divided_dfs = [dataframe.iloc[i:i + parts] for i in range(0, length, parts)]
-    return divided_dfs
-
 def df2():
     df3 = pd.DataFrame()
     for i in range(0, len(df), 4):
@@ -27,5 +21,6 @@ def df2():
         closeFix = df4["close"].iloc[endRow - 1]
         df5 = pd.DataFrame({'open': [openFix], 'high': [highFix], 'low': [lowFix], 'close': [closeFix]})
         df3 = pd.concat([df3, df5], ignore_index=True) 
+    print("\n 4 minute candle \n")
     print(df3)
     return df3

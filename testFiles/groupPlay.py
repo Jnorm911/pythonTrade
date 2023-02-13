@@ -2,7 +2,9 @@ import pandas as pd
 import numpy as np
 import threading
 import time
-import sys
+
+# Shared flag to control the threads
+stop_flag = False
 
 df = pd.DataFrame()
 def makeKline():
@@ -17,7 +19,7 @@ def makeKline():
     dfFix = pd.DataFrame({'open': [openFix], 'high': [highFix], 'low': [lowFix], 'close': [closeFix]})
     return dfFix
 def klines1Min(): 
-    while True: 
+    while not stop_flag:
         time.sleep(1) 
         global df
         df = pd.concat([df, makeKline()], ignore_index=True)  
@@ -25,9 +27,10 @@ def klines1Min():
             df = df.iloc[1:]
         print("\n 1 Minute Klines \n")
         print(df) 
-def df2():
+
+def timedKline():
     df3 = pd.DataFrame()
-    for i in range(0, len(df), 4):
+    for i in range(0, len(df) - (len(df) % 4), 4): # adjust range to avoid remainder rows 
         df4 = df.iloc[i:i+4]
         endRow = df4.shape[0]
         openFix = df4["open"].iloc[0]
@@ -40,22 +43,28 @@ def df2():
     print(df3)
     return df3
 
-def quitThread():
-    while True:
-        execute = input("Press Q to quit: ")
+def getUserKline():
+    while not stop_flag:
+        time.sleep(4) 
+        timedKline()
+
+def quitThreads():
+    global stop_flag
+    while not stop_flag:
+        execute = input("Press Q to quit: \n")
         if execute == "q":
             print("goodbye")
-            sys.exit()
+            stop_flag = True
+            thread1.join()
+            thread2.join()
 
   
-t1 = threading.Thread(target=klines1Min) 
-t1.daemon=True
-t2 = threading.Thread(target=quitThread).start() 
-t1.start() 
+# Start the threads
+thread1 = threading.Thread(target=klines1Min)
+thread2 = threading.Thread(target=getUserKline)
+thread3 = threading.Thread(target=quitThreads)
+thread1.start()
+thread2.start()
+thread3.start()
 
-while True:
-    time.sleep(10)
-    df2()
-# Function
-# For every 4 rows of klines make a pandas dataframe
 
