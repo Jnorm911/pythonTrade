@@ -7,6 +7,7 @@ import time
 stop_flag = False
 
 df = pd.DataFrame()
+df2 = pd.DataFrame()
 def makeKline():
     n = 10
     data = np.random.randint(0, 10, size=(n, 4))
@@ -46,7 +47,11 @@ def timedKline():
 def getUserKline():
     while not stop_flag:
         time.sleep(4) 
-        timedKline()
+        global df2
+        df2= pd.concat([df2, timedKline()], ignore_index=True) 
+        print("Please hit!")
+        print(df2)
+
 
 def quitThreads():
     global stop_flag
@@ -58,6 +63,13 @@ def quitThreads():
             thread1.join()
             thread2.join()
 
+
+# The following code can be used to concat getUserKline() to a new pandas dataframe: 
+# df_new = pd.DataFrame()
+# while not stop_flag: 
+#     df_temp = getUserKline() 
+#     df_new = pd.concat([df_new, df_temp], ignore_index=True) 
+# print(df_new)
   
 # Start the threads
 thread1 = threading.Thread(target=klines1Min)
