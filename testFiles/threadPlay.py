@@ -1,42 +1,52 @@
-import threading
 import time
+import random
+import multiprocessing
+import threading
 
-# Shared flag to control the threads
-stop_flag = False
+def generate_random_numbers():
+    # Generate random numbers
+    for i in range(1000):
+        num = random.randint(0, 1000000)
 
-def worker1():
-    while not stop_flag:
-        print("Worker 1 is running")
-        time.sleep(1)
+def run_threads(num_threads):
+    # Create and start threads
+    threads = []
+    start_time = time.time()
+    for i in range(num_threads):
+        t = threading.Thread(target=generate_random_numbers)
+        threads.append(t)
+        t.start()
 
-def worker2():
-    while not stop_flag:
-        print("Worker 2 is running")
-        time.sleep(2)
+    # Wait for threads to finish
+    for t in threads:
+        t.join()
 
-def worker3():
-    while not stop_flag:
-        print("Worker 3 is running")
-        time.sleep(3)
+    end_time = time.time()
 
-def quitThreads():
-    global stop_flag
-    while not stop_flag:
-        execute = input("Press Q to quit: ")
-        if execute == "q":
-            print("goodbye")
-            stop_flag = True
-            thread1.join()
-            thread2.join()
-            thread3.join()
+    return end_time - start_time
 
-# Start the threads
-thread1 = threading.Thread(target=worker1)
-thread2 = threading.Thread(target=worker2)
-thread3 = threading.Thread(target=worker3)
-thread4 = threading.Thread(target=quitThreads)
-thread1.start()
-thread2.start()
-thread3.start()
-thread4.start()
+def run_processes(num_processes):
+    # Create and start processes
+    processes = []
+    start_time = time.time()
+    for i in range(num_processes):
+        p = multiprocessing.Process(target=generate_random_numbers)
+        processes.append(p)
+        p.start()
 
+    # Wait for processes to finish
+    for p in processes:
+        p.join()
+
+    end_time = time.time()
+
+    return end_time - start_time
+
+if __name__ == '__main__':
+    # Test with different numbers of threads and processes
+    for num_threads in [1, 2, 4, 8, 16, 32]:
+        print(f"Testing with {num_threads} threads and processes...")
+        time_taken_threads = run_threads(num_threads)
+        time_taken_processes = run_processes(num_threads)
+        print(f"Time taken with threads: {time_taken_threads:.3f} seconds")
+        print(f"Time taken with processes: {time_taken_processes:.3f} seconds\n")
